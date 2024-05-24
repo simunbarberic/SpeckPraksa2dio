@@ -8,6 +8,8 @@ app.use(cors());
 
 const userRouter = require('./routes/Users');
 app.use('/users', userRouter);
+const pokemonRouter = require('./routes/Pokemons');
+app.use('/pokemons', pokemonRouter);
 
 db.sequelize.sync().then(()=>{
     app.listen(3001, ()=>{

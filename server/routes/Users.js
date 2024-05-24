@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const {Users} = require('../models');
 const { where } = require('sequelize');
+const jwt = require('jsonwebtoken');
 
-
+const privateKey = "hahagfasdgfeqfgeqvdvaqs";
 
 router.post('/register', async (req,res)=>{
     try{
@@ -25,7 +26,8 @@ router.post('/login', async (req,res)=>{
             return res.status(404).json({message : "No user with that username"})
         }else{
             if(user.password == Password){
-                return res.status(200).json({message: "Successfully logged in"});
+                const token = jwt.sign({ username: Username }, privateKey, { expiresIn: '1h' });
+                res.status(200).json(token);
             }else{
                 return res.status(401).json({message: "Wrong password"});
             }
